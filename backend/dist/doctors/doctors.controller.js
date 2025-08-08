@@ -19,7 +19,6 @@ const create_doctor_dto_1 = require("./dto/create-doctor.dto");
 const update_doctor_dto_1 = require("./dto/update-doctor.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let DoctorsController = class DoctorsController {
-    doctorsService;
     constructor(doctorsService) {
         this.doctorsService = doctorsService;
     }

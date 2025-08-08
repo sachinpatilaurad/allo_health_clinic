@@ -12,12 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Doctor = void 0;
 const typeorm_1 = require("typeorm");
 let Doctor = class Doctor {
-    id;
-    name;
-    specialization;
-    gender;
-    location;
-    isAvailable;
 };
 exports.Doctor = Doctor;
 __decorate([

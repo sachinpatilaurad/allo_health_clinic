@@ -1,23 +1,23 @@
 // backend/src/users/entities/user.entity.ts
 
 import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt'; // <-- Add bcrypt import
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true }) // Every user must have a unique email
+  @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
 
-  // This is a special hook from TypeORM.
-  // It will automatically run the hashPassword method before a new user is saved.
+  // --- ADD THIS METHOD BACK ---
   @BeforeInsert()
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
   }
 }

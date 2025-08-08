@@ -19,7 +19,6 @@ const typeorm_2 = require("typeorm");
 const appointment_entity_1 = require("./entities/appointment.entity");
 const doctor_entity_1 = require("../doctors/entities/doctor.entity");
 let AppointmentsService = class AppointmentsService {
-    appointmentsRepository;
     constructor(appointmentsRepository) {
         this.appointmentsRepository = appointmentsRepository;
     }

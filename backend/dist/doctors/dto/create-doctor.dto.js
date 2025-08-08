@@ -12,11 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateDoctorDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateDoctorDto {
-    name;
-    specialization;
-    gender;
-    location;
-    isAvailable;
 }
 exports.CreateDoctorDto = CreateDoctorDto;
 __decorate([

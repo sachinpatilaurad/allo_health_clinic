@@ -13,8 +13,6 @@ exports.UpdateAppointmentDto = void 0;
 const class_validator_1 = require("class-validator");
 const appointment_entity_1 = require("../entities/appointment.entity");
 class UpdateAppointmentDto {
-    appointmentTime;
-    status;
 }
 exports.UpdateAppointmentDto = UpdateAppointmentDto;
 __decorate([

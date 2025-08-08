@@ -19,7 +19,6 @@ const typeorm_2 = require("typeorm");
 const queue_patient_entity_1 = require("./entities/queue-patient.entity");
 const doctor_entity_1 = require("../doctors/entities/doctor.entity");
 let QueueService = class QueueService {
-    queueRepository;
     constructor(queueRepository) {
         this.queueRepository = queueRepository;
     }

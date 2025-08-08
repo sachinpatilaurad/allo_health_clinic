@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const local_auth_guard_1 = require("./guards/local-auth.guard");
 let AuthController = class AuthController {
-    authService;
     constructor(authService) {
         this.authService = authService;
     }

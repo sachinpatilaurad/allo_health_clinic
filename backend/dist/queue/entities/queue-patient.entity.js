@@ -19,15 +19,6 @@ var QueueStatus;
     QueueStatus["COMPLETED"] = "Completed";
 })(QueueStatus || (exports.QueueStatus = QueueStatus = {}));
 let QueuePatient = class QueuePatient {
-    id;
-    patientName;
-    contactNumber;
-    reasonForVisit;
-    isUrgent;
-    queueNumber;
-    status;
-    arrivalTime;
-    assignedDoctor;
 };
 exports.QueuePatient = QueuePatient;
 __decorate([

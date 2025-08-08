@@ -3,7 +3,7 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt'; // <-- Reverted back to 'bcrypt'
 
 @Injectable()
 export class AuthService {
@@ -12,18 +12,22 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  // This is called by the LocalStrategy's validate() method
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(email);
-    if (user && (await bcrypt.compare(pass, user.password))) {
-      // We remove the password from the user object before returning it
+    if (!user) {
+      return null;
+    }
+    
+    // This will now use the original bcrypt library
+    const isMatch = await bcrypt.compare(pass, user.password);
+    if (isMatch) {
       const { password, ...result } = user;
       return result;
     }
+    
     return null;
   }
 
-  // This will be called by our login controller endpoint
   async login(user: any) {
     const payload = { email: user.email, sub: user.id };
     return {

@@ -15,7 +15,6 @@ const passport_1 = require("@nestjs/passport");
 const jwt_1 = require("@nestjs/jwt");
 const local_strategy_1 = require("./strategies/local.strategy");
 const jwt_strategy_1 = require("./strategies/jwt.strategy");
-const config_1 = require("@nestjs/config");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -24,14 +23,11 @@ exports.AuthModule = AuthModule = __decorate([
         imports: [
             users_module_1.UsersModule,
             passport_1.PassportModule,
-            config_1.ConfigModule,
             jwt_1.JwtModule.registerAsync({
-                imports: [config_1.ConfigModule],
-                useFactory: async (configService) => ({
-                    secret: configService.get('JWT_SECRET'),
+                useFactory: () => ({
+                    secret: 'this-is-a-super-secret-for-local-development-123',
                     signOptions: { expiresIn: '60m' },
                 }),
-                inject: [config_1.ConfigService],
             }),
         ],
         providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy],

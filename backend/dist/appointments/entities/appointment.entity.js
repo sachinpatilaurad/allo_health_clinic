@@ -19,11 +19,6 @@ var AppointmentStatus;
     AppointmentStatus["CANCELED"] = "canceled";
 })(AppointmentStatus || (exports.AppointmentStatus = AppointmentStatus = {}));
 let Appointment = class Appointment {
-    id;
-    patientName;
-    appointmentTime;
-    status;
-    doctor;
 };
 exports.Appointment = Appointment;
 __decorate([

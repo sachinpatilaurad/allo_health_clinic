@@ -12,11 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateQueuePatientDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateQueuePatientDto {
-    patientName;
-    contactNumber;
-    reasonForVisit;
-    isUrgent;
-    assignedDoctorId;
 }
 exports.CreateQueuePatientDto = CreateQueuePatientDto;
 __decorate([

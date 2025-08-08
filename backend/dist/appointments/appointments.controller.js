@@ -19,7 +19,6 @@ const create_appointment_dto_1 = require("./dto/create-appointment.dto");
 const update_appointment_dto_1 = require("./dto/update-appointment.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let AppointmentsController = class AppointmentsController {
-    appointmentsService;
     constructor(appointmentsService) {
         this.appointmentsService = appointmentsService;
     }

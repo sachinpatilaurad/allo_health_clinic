@@ -19,7 +19,6 @@ const create_queue_patient_dto_1 = require("./dto/create-queue-patient.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const update_queue_status_dto_1 = require("./dto/update-queue-status.dto");
 let QueueController = class QueueController {
-    queueService;
     constructor(queueService) {
         this.queueService = queueService;
     }
