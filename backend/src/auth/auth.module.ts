@@ -1,22 +1,29 @@
+// backend/src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { UsersModule } from '../users/users.module'; // Import UsersModule
+import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    UsersModule, // Gives us access to UsersService
+    UsersModule,
     PassportModule,
-    JwtModule.register({
-      secret: 'YOUR_SECRET_KEY', // <-- IMPORTANT: Change this to a real secret!
-      signOptions: { expiresIn: '60m' }, // Token will be valid for 60 minutes
+    ConfigModule, // <-- IMPORTANT: Import ConfigModule here
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '60m' },
+      }),
+      inject: [ConfigService],
     }),
   ],
-  providers: [AuthService,LocalStrategy,JwtStrategy], // We will add more providers here soon
+  providers: [AuthService, LocalStrategy, JwtStrategy], // JwtStrategy is already here, which is correct
   controllers: [AuthController],
 })
 export class AuthModule {}

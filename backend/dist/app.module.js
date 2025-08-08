@@ -16,21 +16,29 @@ const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
 const appointments_module_1 = require("./appointments/appointments.module");
 const queue_module_1 = require("./queue/queue.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'mysql',
-                host: 'localhost',
-                port: 3306,
-                username: 'root',
-                password: '',
-                database: 'allo_health_clinic',
-                entities: [__dirname + '/**/*.entity{.ts,.js}'],
-                synchronize: true,
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                envFilePath: '.env',
+            }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: (configService) => ({
+                    type: 'mysql',
+                    url: configService.get('DATABASE_URL'),
+                    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                    synchronize: true,
+                    ssl: configService.get('DATABASE_URL')?.includes('railway.app')
+                        ? { rejectUnauthorized: false }
+                        : false,
+                }),
+                inject: [config_1.ConfigService],
             }),
             doctors_module_1.DoctorsModule,
             users_module_1.UsersModule,

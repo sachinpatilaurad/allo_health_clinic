@@ -1,0 +1,10 @@
+# backend/.gitignore file
+
+# Dependencies
+/node_modules
+
+# Environment file
+.env
+
+# Build folder
+/dist
