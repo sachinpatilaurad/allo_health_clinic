@@ -25,7 +25,8 @@ export default function LoginPage() {
         
         // --- THIS IS THE MAIN CHANGE ---
         // Redirect to the main dashboard, which is the protected area of the app.
-        router.push('/dashboard'); 
+        // router.push('/dashboard'); 
+        router.push('/doctors'); 
       }
     } catch (err) {
       console.error('Login failed:', err);
