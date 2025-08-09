@@ -1,8 +1,9 @@
+// backend/src/users/users.service.ts (The FINAL version)
+
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-// import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -11,38 +12,35 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
   ) {}
 
-  /**
-   * This method runs once the module has been initialized.
-   * It checks for a default admin user and creates one if it doesn't exist.
-   */
   async onModuleInit() {
     const adminUser = await this.findOne('admin@allo.com');
     if (!adminUser) {
       console.log('Default admin user not found. Creating one...');
-      // Use the create method which now handles hashing
       await this.create('admin@allo.com', 'password123');
       console.log('Default admin user created with email "admin@allo.com" and password "password123"');
     }
   }
 
-  /**
-   * Finds a user by their email address.
-   * @param email The email of the user to find.
-   * @returns A Promise that resolves to the User object or null if not found.
-   */
+  // This method is for public use (e.g., checking if a user exists)
+  // It does NOT select the password.
   async findOne(email: string): Promise<User | null> {
     return this.usersRepository.findOneBy({ email });
   }
 
-  /**
-   * Creates a new user with a hashed password.
-   * @param email The email for the new user.
-   * @param pass The plain text password for the new user.
-   * @returns A Promise that resolves to the newly created User object.
-   */
+  // --- THIS IS THE MISSING METHOD ---
+  // This is a special method ONLY for the AuthService to use during login.
+  // It guarantees the password hash is retrieved from the database.
+  async findOneWithPassword(email:string): Promise<User | undefined> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .addSelect('user.password')
+      .getOne();
+  }
+
+  // Your 'create' method is PERFECT. It lets the entity's hook do the hashing.
   async create(email: string, pass: string): Promise<User> {
-    // We pass the PLAIN password here, because the @BeforeInsert hook will hash it.
     const newUser = this.usersRepository.create({ email, password: pass });
     return this.usersRepository.save(newUser);
-}
+  }
 }

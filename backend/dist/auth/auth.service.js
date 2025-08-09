@@ -20,12 +20,8 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
     }
     async validateUser(email, pass) {
-        const user = await this.usersService.findOne(email);
-        if (!user) {
-            return null;
-        }
-        const isMatch = await bcrypt.compare(pass, user.password);
-        if (isMatch) {
+        const user = await this.usersService.findOneWithPassword(email);
+        if (user && await bcrypt.compare(pass, user.password)) {
             const { password, ...result } = user;
             return result;
         }

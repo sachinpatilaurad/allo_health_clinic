@@ -32,6 +32,13 @@ let UsersService = class UsersService {
     async findOne(email) {
         return this.usersRepository.findOneBy({ email });
     }
+    async findOneWithPassword(email) {
+        return this.usersRepository
+            .createQueryBuilder('user')
+            .where('user.email = :email', { email })
+            .addSelect('user.password')
+            .getOne();
+    }
     async create(email, pass) {
         const newUser = this.usersRepository.create({ email, password: pass });
         return this.usersRepository.save(newUser);
