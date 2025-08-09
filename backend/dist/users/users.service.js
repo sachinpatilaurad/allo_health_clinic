@@ -24,20 +24,12 @@ let UsersService = class UsersService {
     async onModuleInit() {
         const adminUser = await this.findOne('admin@allo.com');
         if (!adminUser) {
-            console.log('Default admin user not found. Creating one...');
+            console.log('--- PLAIN TEXT MODE: Creating default admin user. ---');
             await this.create('admin@allo.com', 'password123');
-            console.log('Default admin user created with email "admin@allo.com" and password "password123"');
         }
     }
     async findOne(email) {
         return this.usersRepository.findOneBy({ email });
-    }
-    async findOneWithPassword(email) {
-        return this.usersRepository
-            .createQueryBuilder('user')
-            .where('user.email = :email', { email })
-            .addSelect('user.password')
-            .getOne();
     }
     async create(email, pass) {
         const newUser = this.usersRepository.create({ email, password: pass });

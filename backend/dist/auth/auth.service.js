@@ -13,15 +13,14 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
-const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(usersService, jwtService) {
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
     async validateUser(email, pass) {
-        const user = await this.usersService.findOneWithPassword(email);
-        if (user && await bcrypt.compare(pass, user.password)) {
+        const user = await this.usersService.findOne(email);
+        if (user && user.password === pass) {
             const { password, ...result } = user;
             return result;
         }
