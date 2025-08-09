@@ -9,7 +9,7 @@ async function bootstrap() {
     origin: [
         'http://localhost:3000', // For your local frontend
         // Vercel will give you a URL like this. You can add it later.
-        'https://YOUR_FRONTEND_PROJECT_NAME.vercel.app' 
+        'https://allo-health-clinic.vercel.app/' 
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
