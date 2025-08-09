@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const config_1 = require("@nestjs/config");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const doctors_module_1 = require("./doctors/doctors.module");
@@ -16,21 +17,32 @@ const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
 const appointments_module_1 = require("./appointments/appointments.module");
 const queue_module_1 = require("./queue/queue.module");
+const user_entity_1 = require("./users/entities/user.entity");
+const doctor_entity_1 = require("./doctors/entities/doctor.entity");
+const appointment_entity_1 = require("./appointments/entities/appointment.entity");
+const queue_patient_entity_1 = require("./queue/entities/queue-patient.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'mysql',
-                host: 'localhost',
-                port: 3306,
-                username: 'root',
-                password: '',
-                database: 'allo_health_clinic',
-                entities: [__dirname + '/**/*.entity{.ts,.js}'],
-                synchronize: true,
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                envFilePath: '.env',
+            }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                inject: [config_1.ConfigService],
+                useFactory: (configService) => ({
+                    type: 'mysql',
+                    url: configService.get('DATABASE_URL'),
+                    entities: [user_entity_1.User, doctor_entity_1.Doctor, appointment_entity_1.Appointment, queue_patient_entity_1.QueuePatient],
+                    synchronize: true,
+                    ssl: {
+                        rejectUnauthorized: false,
+                    },
+                }),
             }),
             doctors_module_1.DoctorsModule,
             users_module_1.UsersModule,

@@ -1,6 +1,6 @@
+import { OnModuleInit } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { OnModuleInit } from '@nestjs/common';
 export declare class UsersService implements OnModuleInit {
     private usersRepository;
     constructor(usersRepository: Repository<User>);
