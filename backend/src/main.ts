@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+    console.log("--- DEPLOYMENT MARKER V7: STARTING WITH FINAL AUTH LOGIC ---");
+
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: [
