@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Allo Health Clinic",
   description: "Front Desk Management System",
+
 };
 
 export default function RootLayout({
