@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@allo.com'); // Pre-filled for convenience
+  const [password, setPassword] = useState('password123'); // Pre-filled for convenience
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -20,8 +20,12 @@ export default function LoginPage() {
       const response = await api.post('/auth/login', { email, password });
 
       if (response.data && response.data.access_token) {
+        // We will consistently use 'accessToken' as the key
         localStorage.setItem('accessToken', response.data.access_token);
-        router.push('/'); // Redirect to dashboard on success
+        
+        // --- THIS IS THE MAIN CHANGE ---
+        // Redirect to the main dashboard, which is the protected area of the app.
+        router.push('/dashboard'); 
       }
     } catch (err) {
       console.error('Login failed:', err);
