@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -41,18 +41,8 @@ export class UsersService implements OnModuleInit {
    * @returns A Promise that resolves to the newly created User object.
    */
   async create(email: string, pass: string): Promise<User> {
-    // 1. Generate a salt
-    const salt = await bcrypt.genSalt();
-    // 2. Hash the password with the salt
-    const hashedPassword = await bcrypt.hash(pass, salt);
-
-    // 3. Create the new user with the hashed password
-    const newUser = this.usersRepository.create({ 
-      email, 
-      password: hashedPassword, // Save the HASHED password
-    });
-
-    // 4. Save the user to the database
+    // We pass the PLAIN password here, because the @BeforeInsert hook will hash it.
+    const newUser = this.usersRepository.create({ email, password: pass });
     return this.usersRepository.save(newUser);
-  }
+}
 }
